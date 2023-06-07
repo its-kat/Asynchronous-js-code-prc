@@ -124,6 +124,7 @@ const getCountryandNeighbour = function (country) {
 // const request = fetch('https://restcountries.com/v2/name/portugal');
 // console.log(request);
 
+// call back function
 /* const getCountryData = function (country) {
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(function (response) {
@@ -136,11 +137,23 @@ const getCountryandNeighbour = function (country) {
     });
 }; */
 
-//refactored ES6
+//refactored ES6 & chain promises (flat chain of promises)
 const getCountryData = function (country) {
+  //country 1
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(response => response.json())
-    .then(data => renderCountry(data[0]));
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
+
+      if (!neighbour) return;
+
+      //country 2
+      return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data, 'neighbour'));
 };
 
 getCountryData('portugal');
+// getCountryData('italy');
