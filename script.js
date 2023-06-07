@@ -1,42 +1,44 @@
 'use strict';
 
+// const { get } = require('animejs');
+
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
 ///////////////////////////////////////
 
-// const getCountryData = function (country) {
-//   //old school way of doing http request in JS
-//   const request = new XMLHttpRequest();
+/* const getCountryData = function (country) {
+  //old school way of doing http request in JS
+  const request = new XMLHttpRequest();
 
-//   request.open('GET', `https://restcountries.com/v2/name/${country}`);
-//   request.send();
+  request.open('GET', `https://restcountries.com/v2/name/${country}`);
+  request.send();
 
-//   request.addEventListener('load', function () {
-//     const [data] = JSON.parse(this.responseText);
-//     console.log(data);
+  request.addEventListener('load', function () {
+    const [data] = JSON.parse(this.responseText);
+    console.log(data);
 
-//     const html = `
-//   <article class="country">
-//     <img class="country__img" src=${data.flag} />
-//     <div class="country__data">
-//       <h3 class="country__name">${data.name}</h3>
-//       <h4 class="country__region">${data.region}</h4>
-//       <p class="country__row"><span>👫</span>${(
-//         +data.population / 1000000
-//       ).toFixed(1)}</p>
-//       <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
-//       <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
-//     </div>
-//   </article>
-//   `;
+    const html = `
+  <article class="country">
+    <img class="country__img" src=${data.flag} />
+    <div class="country__data">
+      <h3 class="country__name">${data.name}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(
+        +data.population / 1000000
+      ).toFixed(1)}</p>
+      <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+      <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+    </div>
+  </article>
+  `;
 
-//     countriesContainer.insertAdjacentHTML('beforeend', html);
-//     countriesContainer.style.opacity = 1;
-//   });
-// };
+    countriesContainer.insertAdjacentHTML('beforeend', html);
+    countriesContainer.style.opacity = 1;
+  });
+};
 
-// getCountryData('portugal');
+getCountryData('portugal'); */
 
 ///////////////////////////////////////
 /// callback hell
@@ -93,21 +95,52 @@ const getCountryandNeighbour = function (country) {
   });
 };
 
-getCountryandNeighbour('usa');
+// getCountryandNeighbour('usa');
 // getCountryandNeighbour('portugal');
 
 //callback hell
-setTimeout(() => {
-  console.log('1 second passed');
+// setTimeout(() => {
+//   console.log('1 second passed');
 
-  setTimeout(() => {
-    console.log('2 second passed');
+//   setTimeout(() => {
+//     console.log('2 second passed');
 
-    setTimeout(() => {
-      console.log('3 second passed');
-      setTimeout(() => {
-        console.log('4 second passed');
-      }, 1000);
-    }, 1000);
-  }, 1000);
-}, 1000);
+//     setTimeout(() => {
+//       console.log('3 second passed');
+//       setTimeout(() => {
+//         console.log('4 second passed');
+//       }, 1000);
+//     }, 1000);
+//   }, 1000);
+// }, 1000);
+
+///////////////////////////////////////
+/// Modern AJAX Calls
+
+// const request = new XMLHttpRequest();
+// request.open('GET', `https://restcountries.com/v2/name/${country}`);
+// request.send();
+
+// const request = fetch('https://restcountries.com/v2/name/portugal');
+// console.log(request);
+
+/* const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then(function (response) {
+      console.log(response);
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      renderCountry(data[0]);
+    });
+}; */
+
+//refactored ES6
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
+};
+
+getCountryData('portugal');
