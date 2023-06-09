@@ -144,8 +144,10 @@ const renderError = function (msg) {
 /* 
 
 //refactored ES6 & chain promises (flat chain of promises)
+
 const getCountryData = function (country) {
   //country 1
+  
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(response => {
       console.log(response);
@@ -186,6 +188,7 @@ btn.addEventListener('click', function () {
 const getJSON = function (url, errorMsg = 'Something went wrong') {
   return fetch(url).then(response => {
     if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+
     return response.json();
   });
 };
