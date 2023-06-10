@@ -58,14 +58,7 @@ const renderCountry = function (data, className = '') {
     </div>
   </article>
   `;
-
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
-};
-
-const renderError = function (msg) {
-  countriesContainer.insertAdjacentText('beforeend', msg);
-  countriesContainer.style.opacity = 1;
 };
 
 const getJSON = function (url, errorMsg = 'Something went wrong') {
@@ -76,21 +69,25 @@ const getJSON = function (url, errorMsg = 'Something went wrong') {
   });
 };
 
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  countriesContainer.style.opacity = 1;
+};
+
 const getCountryData = function (country) {
   //country 1
   getJSON(`https://restcountries.com/v2/name/${country}`, 'Country not found')
     .then(data => {
-      console.log(data);
       renderCountry(...data);
       const neighbour = data[0].borders ? data[0].borders[0] : undefined;
-
+      console.log(neighbour);
       //country 2
       return getJSON(
         `https://restcountries.com/v2/alpha/${neighbour}`,
         'No neighbours found'
       );
     })
-    .then(data => renderCountry(...data, 'neighbour'))
+    .then(data => renderCountry(data, 'neighbour'))
     .catch(err => {
       console.error(`${err} 💥💥💥`);
       renderError(`Something went wrong 💥💥💥 ${err.message}. Try again!`);
@@ -120,16 +117,14 @@ const whereAmI = function (lat, lng) {
       console.log(`You are in ${data.city}, ${data.countryName}.`);
     })
     .catch(err => {
+      renderError(`Something went wrong, ${err} 💥💥💥`);
       console.error(`Something went wrong, ${err} 💥💥💥`);
     });
 };
 
-// whereAmI(52.508, 52.508);
+// whereAmI(52.508, 13.381);
 // whereAmI(19.037, 72.873);
 whereAmI(-33.933, 18.474);
 
 // whereAmI(-87.33, -90.323);
 // whereAmI(4547.33, -90.323);
-
-// getCountryData('Russia');
-// getCountryData('usa');
