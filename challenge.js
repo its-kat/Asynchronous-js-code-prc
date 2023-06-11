@@ -36,7 +36,7 @@ PART 2
 
 7. Render the country and catch any errors, just like we have done in the last lecture (you can even copy this code, no need to type the same code)
 
-TEST COORDINATES 1: 52.508, 52.508 (Latitude, Longitude)
+TEST COORDINATES 1: 52.508, 13.381(Latitude, Longitude)
 TEST COORDINATES 2: 19.037, 72.873
 TEST COORDINATES 2: -33.933, 18.474
 
