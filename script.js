@@ -502,32 +502,39 @@ const whereAmI_2 = async function () {
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
     );
     if (!resGeo.ok) throw new Error('Problem getting location data');
-
     const dataGeo = await resGeo.json();
-    console.log(dataGeo);
 
     //Country Data
     const cntry = simplifyCountry(`${dataGeo.countryName}`);
 
     const res = await fetch(`https://restcountries.com/v2/name/${cntry}`);
     if (!resGeo.ok) throw new Error('Problem getting country');
-
     const data = await res.json();
-    console.log(data);
     renderCountry(data[0]);
+
+    return `You are in ${dataGeo.city}, ${cntry}`;
   } catch (err) {
     console.error(`${err}💥 `);
     renderCountry(`💥 ${err.message}`);
+
+    // Reject promise returned from async function
+    throw err;
   }
 };
 
-whereAmI_2();
-console.log(`First`);
+console.log(`1: Will get location`);
 
-// try {
-//   let y = 1;
-//   const x = 2;
-//   y = 4;
-// } catch (err) {
-//   alert(err.message);
-// }
+// whereAmI_2()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`${err.message}💥`))
+//   .finally(() => console.log(`3: Finished getting location`));
+
+(async function () {
+  try {
+    const city = await whereAmI_2();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.error(`${err.message}💥`);
+  }
+  console.log(`3: Finished getting location`);
+})();
